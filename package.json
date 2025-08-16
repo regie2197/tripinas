@@ -1,0 +1,31 @@
+{
+  "name": "go-van",
+  "version": "1.0.0",
+  "description": "Start of Amazing Journey",
+  "main": "index.js",
+  "scripts": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/regie2197/go-van.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/regie2197/go-van/issues"
+  },
+  "homepage": "https://github.com/regie2197/go-van#readme",
+  "devDependencies": {
+    "@playwright/test": "^1.54.2",
+    "@types/node": "^24.3.0",
+    "@estruyf/github-actions-reporter": "^1.10.0",
+    "@faker-js/faker": "^9.5.0",
+    "@types/js-yaml": "^4.0.9",
+    "chrome-launcher": "^1.2.0",
+    "dotenv": "^16.6.1",
+    "js-yaml": "^4.1.0",
+    "lighthouse": "^12.7.0",
+    "playwright-html": "1.2.5",
+    "pw-api-plugin": "^2.0.2"
+  }
+}
