@@ -1,0 +1,18 @@
+{
+    "compilerOptions": {
+        "resolveJsonModule": true,
+        "allowSyntheticDefaultImports": true,
+        "baseUrl": ".",
+        "paths": {
+            "@shared/*": ["shared/*"],
+            "@pages/*": ["pages/*"],
+            "@tests/*": ["tests/*"]
+        }
+    },
+    "include": [
+        "pages/**/*",
+        "shared/**/*",
+        "tests/**/*",
+        "playwright.config.ts"
+    ]
+}

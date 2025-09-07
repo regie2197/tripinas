@@ -4,9 +4,13 @@
   "description": "Start of Amazing Journey",
   "main": "index.js",
   "scripts": {
-    "start:frontend": "npm --workspace frontend start",
-    "start:backend": "npm --workspace backend start",
-    "test": "npx playwright test"
+    "start-fe": "npm --workspace frontend start",
+    "start-be": "npm --workspace backend start",
+    "test": "npx playwright test",
+    "login-test": "npx playwright test tests/features/login.spec.ts --project chromium",
+    "login-test-ui": "npx playwright test tests/features/login.spec.ts --project chromium -ui",
+    "registration-test": "npx playwright test tests/features/registration.spec.ts --project chromium",
+    "registration-test-ui": "npx playwright test tests/features/registration.spec.ts --project chromium -ui"
   },
   "repository": {
     "type": "git",
