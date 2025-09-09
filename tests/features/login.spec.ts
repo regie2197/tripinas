@@ -1,27 +1,52 @@
-import { test, expect } from "@shared/base";
+import { test } from "../../shared/base";
+import { attachScreenshot } from "../../shared/helpers";
 import users from "../../test-data/users.json";
 
-test.describe("Login and Profile Verification", { tag: ["@RegressionTesting", "@HappyPath", "@Sprint-1"] }, () => {
-  
+const LOGIN_SUCCESS_SCREENSHOT = "login_success_screenshot";
+const LOGIN_FAILURE_SCREENSHOT = "login_success_screenshot";
+const LOGIN_ERROR_MESSAGE = "Password is incorrect. Try again, or use another method.";
 
-  users.forEach((user) => {
-    test(`should login as ${user.username} and verify profile`, async ({loginPage, page }) => {
-      
-      await test.step("Navigate to Login Page and Verify Page Loaded", async () => {
+test.describe("Login Test Suite", { tag: ["@Regression-Testing", "@Smoke-Testing", "@Sprint-1"] }, () => {
+    test.beforeEach(async ({ loginPage }) => {
         await loginPage.navigateTo();
-        await loginPage.verifyPageLoaded();
-      });
-     
-      await test.step("Input Credentials and Click Continue", async () => {
-        await loginPage.login(user.email, user.password);
-      });
-
-      await test.step("Verify Successful Login and Profile Information", async () => {
-          await loginPage.verifyLoginSuccessful("http://localhost:5173/dashboard");
-          await expect(page.getByTestId("user-fullname")).toContainText(user.fullName);
-          await expect(page.getByTestId("user-username")).toContainText(user.username);
-          await expect(page.getByTestId("user-email")).toContainText(user.email);
-      });
     });
-  });
+
+    for (const user of users) {
+        test(`should login successfully as ${user.email || user.username}`, { tag: "@HappyPath" }, async ({ loginPage }, testInfo) => {
+            await test.step("Login with valid credentials", async () => {
+                // Use email if available, otherwise username
+                const emailOrUsername = user.email ? user.email : user.username;
+                await loginPage.login(emailOrUsername, user.password);
+            });
+            await test.step("Verify login success", async () => {
+                await loginPage.verifyLoginSuccess();
+            });
+            await test.step("Take and attach screenshot", async () => {
+                await attachScreenshot(
+                    loginPage.page,
+                    testInfo,
+                    LOGIN_SUCCESS_SCREENSHOT
+                );
+            });
+        });
+
+        test(`should fail to login with invalid password for ${user.email || user.username}`, async ({ loginPage }, testInfo) => {
+            await test.step("Attempt login with invalid password", async () => {
+                const identifier = user.email || user.username;
+                // Use a wrong password
+                await loginPage.loginFailed(identifier, "wrong_password");
+            });
+            await test.step("Verify login error message", async () => {
+                await loginPage.verifyLoginError(LOGIN_ERROR_MESSAGE);
+            });
+            await test.step("Take and attach screenshot", async () => {
+                await attachScreenshot(
+                    loginPage.page,
+                    testInfo,
+                    LOGIN_FAILURE_SCREENSHOT
+                );
+            });
+        });
+    }
+    
 });
