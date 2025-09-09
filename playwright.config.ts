@@ -52,7 +52,7 @@ export default defineConfig({
       name: "setup",
       testMatch: "**/*.setup.ts",
     },
-    {
+    /*{
       name: "e2e",
       dependencies: ["setup"],
       use: {
@@ -62,7 +62,7 @@ export default defineConfig({
           args: ["--start-maximized"],
         },
       },
-    },
+    },*/
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },

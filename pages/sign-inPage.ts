@@ -34,6 +34,20 @@ export class signInPage {
     async signIn(identifier: string, password: string): Promise<void> {
         await this.inputUsername.fill(identifier);
         await this.buttonContinue.click();
+        await this.page.waitForURL('http://localhost:5173/sign-in#/factor-one');
+        await this.inputPassword.fill(password);
+        await this.buttonContinue.click();
+    }
+
+    async enterIdentifier(identifier: string): Promise<void> {
+        await this.inputUsername.fill(identifier);
+        await this.buttonContinue.click();
+    }
+
+    async enterPassword(identifier: string, password: string): Promise<void> {
+        await this.inputUsername.fill(identifier);
+        await this.buttonContinue.click();
+        await this.page.waitForURL('http://localhost:5173/sign-in#/factor-one');
         await this.inputPassword.fill(password);
         await this.buttonContinue.click();
     }
@@ -41,6 +55,7 @@ export class signInPage {
     async requestNewPassword(identifier: string): Promise<void> {
         await this.inputUsername.fill(identifier);
         await this.buttonContinue.click();
+        await this.page.waitForURL('http://localhost:5173/sign-in#/factor-one');
         await this.linkForgotPassword.click();
         await this.buttonResetPassword.click();
         //Can't go any further as Verification Code is outside the scope.
