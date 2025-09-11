@@ -10,7 +10,7 @@ test.describe('Sign In Page Tests', () => {
     await expect(page.getByRole('heading', { name: 'Dashboard Home' })).toBeVisible();
   });
 
-  test('Verify that user can request a new password', {tag: ['@Happy Path']}, async ({ signInPage, page }) => {
+  test('Verify that user will be asked for OTP they request for a new password', {tag: ['@Happy Path']}, async ({ signInPage, page }) => {
     await signInPage.navigateTo();
     await signInPage.requestNewPassword('regietest');
 

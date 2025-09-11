@@ -18,7 +18,7 @@ test.describe('Sign Up Tests', () => {
     await expect(page.getByText('Welcome! Please fill in the details to get started.')).toBeVisible();
   });
 
-  test('Verify that user can register with valid details', { tag: ['@HappyPath', '@Smoke', '@faker-js'] }, async () => {
+  test('Verify that user can register with valid details', { tag: ['@HappyPath', '@faker-js'] }, async () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
 
@@ -35,7 +35,7 @@ test.describe('Sign Up Tests', () => {
     await expect(signUpPage.page).toHaveURL('http://localhost:5173/dashboard');
   });
 
-  test('Verify that user can navigate back to Sign In page', { tag: ['@HappyPath', '@Smoke'] }, async () => {
+  test('Verify that user can navigate back to Sign In page', { tag: ['@HappyPath'] }, async () => {
     await signUpPage.goToSignInInstead();
   });
 

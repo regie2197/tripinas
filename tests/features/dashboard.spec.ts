@@ -10,12 +10,12 @@ test.beforeEach (async ({ page }) => {
   await signIn.signIn(process.env.IDENTIFIER!, process.env.PASSWORD!);
 })
 
-  test('Verify that user Button is visible', async ({ page }) => {
+  test('Verify that user Button is visible', {tag: ['@Happy Path']}, async ({ page }) => {
   await page.goto('http://localhost:5173/dashboard/');
   await expect(page.getByRole('button', { name: 'Open user button' })).toBeVisible();
 });
 
-  test('Navigate to Dashboard and verify that all headings and contents are visible', {tag: ['@Happy Path']}, async ({ page }) => {
+  test('Verify that all headings and contents are visible', {tag: ['@Happy Path']}, async ({ page }) => {
     const dashboard = new Dashboard(page);
 
     await expect(dashboard.headingAdmin).toBeVisible();
