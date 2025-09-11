@@ -7,10 +7,13 @@
     "start-fe": "npm --workspace frontend start",
     "start-be": "npm --workspace backend start",
     "test": "npx playwright test",
+    "login-test-ui": "npx playwright test tests/features/login.spec.ts --project chromium --ui",
+    "register-test-ui": "npx playwright test tests/features/registration.spec.ts --project chromium --ui",
+    "auth-setup": "npx playwright test tests/features/auth.setup.ts --project setup",
+    "profile-test-ui": "npx playwright test tests/features/profile.spec.ts --project profile --ui",
     "login-test": "npx playwright test tests/features/login.spec.ts --project chromium",
-    "login-test-ui": "npx playwright test tests/features/login.spec.ts --project chromium -ui",
-    "registration-test": "npx playwright test tests/features/registration.spec.ts --project chromium",
-    "registration-test-ui": "npx playwright test tests/features/registration.spec.ts --project chromium -ui"
+    "register-test": "npx playwright test tests/features/registration.spec.ts --project chromium",
+    "profile-test": "npx playwright test tests/features/profile.spec.ts --project profile"
   },
   "repository": {
     "type": "git",
@@ -29,7 +32,7 @@
   ],
   "devDependencies": {
     "@estruyf/github-actions-reporter": "^1.10.0",
-    "@faker-js/faker": "^9.5.0",
+    "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.54.2",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.3.0",

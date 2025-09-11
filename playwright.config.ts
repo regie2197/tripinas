@@ -15,6 +15,7 @@ export const STORAGE_STATE = path.join(__dirname, "./.auth/user.json");
  */
 export default defineConfig({
   testDir: './tests',
+  timeout: 60_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -41,20 +42,21 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:5173/sign-in',
-
+    screenshot: 'only-on-failure',
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
   },
 
   /* Configure projects for major browsers */
   projects: [
-     {
+    {
       name: "setup",
       testMatch: "**/*.setup.ts",
     },
     {
-      name: "e2e",
+      name: "profile",
       dependencies: ["setup"],
+      testMatch: "tests/features/profile.spec.ts",
       use: {
         storageState: STORAGE_STATE,
         ...devices["Desktop Chrome"],
