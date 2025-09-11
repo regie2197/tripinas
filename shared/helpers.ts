@@ -1,5 +1,5 @@
 import { Page, TestInfo } from '@playwright/test';
-import { takeScreenshot, readLatestScreenshot } from './utils';
+import { takeScreenshot, readLatestScreenshot } from './screenshotUtils';
 import { existsSync, mkdirSync } from 'fs';
 import * as path from 'path';
 
