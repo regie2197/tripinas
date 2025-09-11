@@ -12,10 +12,13 @@ const SCREENSHOT_DIR = 'test-screenshots';
  * @param testInfo - The Playwright TestInfo object.
  * @param screenshotName - The name to be used for the screenshot attachment.
  */
-export async function attachScreenshot(page: Page, testInfo: TestInfo, screenshotName: string): Promise<void> {
-  const testCaseName = testInfo.title; // Use the test case name from TestInfo
-  await takeScreenshot(page, testCaseName, SCREENSHOT_DIR);
-  const screenshotBuffer = readLatestScreenshot(SCREENSHOT_DIR, testCaseName);
+export async function attachScreenshot(
+  page: Page,
+  testInfo: TestInfo,
+  screenshotName: string
+): Promise<void> {
+  await takeScreenshot(page, testInfo, SCREENSHOT_DIR);
+  const screenshotBuffer = readLatestScreenshot(SCREENSHOT_DIR, testInfo);
   await testInfo.attach(screenshotName, {
     body: screenshotBuffer,
     contentType: 'image/png',

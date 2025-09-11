@@ -1,14 +1,20 @@
 [
-  {
-    "fullName": "Reginald Offemaria",
-    "username": "regietest21",
-    "email": "regietest@example.com",
-    "password": "regietest"
-  },
-  {
-    "fullName": "Juan Dela Cruz",
-    "username": "regietest",
-    "email": "regietest@email.com",
-    "password": "regietest"
-  }
+{
+  "fullName": "Marianne Cecilio",
+  "username": "mgctest_test012",
+  "email": "mariannegracececilio.talentpop@gmail.com",
+  "password": "mgctest0812"
+},
+{
+  "fullName": "Marianne C",
+  "username": "mgctest_test1982",
+  "email": "mariannegracececilio@gmail.com",
+  "password": "mgctest0812"
+},
+{
+  "lesseightPassword": "mgctest",
+  "sequentialPassword": "password123",
+  "commonPassword": "12345678",
+  "repeatingDigitsPassword": "test112233"
+}
 ]

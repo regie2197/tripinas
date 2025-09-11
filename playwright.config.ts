@@ -14,6 +14,11 @@ export const STORAGE_STATE = path.join(__dirname, "./.auth/user.json");
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
+  timeout: 120000,  //120 seconds per test
+  expect: {
+    timeout: 5000   //5 seconds for expect conditions
+  },
+  /* Run tests in files in parallel */
   testDir: './tests',
   /* Run tests in files in parallel */
   fullyParallel: true,

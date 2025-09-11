@@ -1,15 +1,15 @@
-import { Page } from '@playwright/test';
+import { Page, TestInfo } from '@playwright/test';
 import path from 'path';
 import fs from 'fs';
 
 /**
  * Takes a screenshot with a dynamic name based on the test case name and current date.
  * @param page - The Playwright Page object.
- * @param testCaseName - The name of the test case (usually `testInfo.title`).
- * @param screenshotDir - The directory where screenshots will be saved (default: 'test-screenshots').
+ * @param testInfo - The Playwright TestInfo object.
+ * @param screenshotDir - The directory where screenshots will be saved (default: 'screenshots').
  * @returns {Promise<Buffer>} - The screenshot as a Buffer.
  */
-export async function takeScreenshot(page: Page, testCaseName: string, screenshotDir: string = 'test-screenshots'): Promise<Buffer> {
+export async function takeScreenshot(page: Page, testInfo: TestInfo, screenshotDir: string = 'screenshots'): Promise<Buffer> {
   // Generate a human-readable timestamp for the screenshot name
   const now = new Date();
   const timestamp = now.toLocaleString('en-US', {
@@ -19,51 +19,41 @@ export async function takeScreenshot(page: Page, testCaseName: string, screensho
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
-    hour12: false, // Use 24-hour format
-  }).replace(/[/,:]/g, '-').replace(/\s/g, '_'); // Replace invalid characters for filenames
+    hour12: false,
+  }).replace(/[/,:]/g, '-').replace(/\s/g, '_');
 
-  // Create a sanitized test case name for the filename
-  const sanitizedTestCaseName = testCaseName.replace(/[^a-zA-Z0-9]/g, '_'); // Replace special characters with underscores
-
-  // Generate the dynamic screenshot name
+  // Use testInfo.title for the test case name
+  const sanitizedTestCaseName = testInfo.title.replace(/[^a-zA-Z0-9]/g, '_');
   const screenshotName = `${sanitizedTestCaseName}_${timestamp}.png`;
 
-  // Ensure the screenshot directory exists
   if (!fs.existsSync(screenshotDir)) {
-    fs.mkdirSync(screenshotDir, { recursive: true }); // Create directory if it doesn't exist
+    fs.mkdirSync(screenshotDir, { recursive: true });
   }
 
-  // Take the screenshot and save it to the specified directory
   const screenshotPath = path.join(screenshotDir, screenshotName);
   const screenshotBuffer = await page.screenshot({
     path: screenshotPath,
     fullPage: true,
   });
-
   return screenshotBuffer;
 }
 
 /**
  * Reads the latest screenshot file into a Buffer.
  * @param screenshotDir - The directory where screenshots are saved.
- * @param testCaseName - The name of the test case (used to filter relevant screenshots).
+ * @param testInfo - The Playwright TestInfo object (used to filter relevant screenshots).
  * @returns {Buffer} - The screenshot file as a Buffer.
- * @throws {Error} - If no matching screenshots are found.
  */
-export function readLatestScreenshot(screenshotDir: string, testCaseName: string): Buffer {
-  const sanitizedTestCaseName = testCaseName.replace(/[^a-zA-Z0-9]/g, '_');
-
-  // Read files safely
+export function readLatestScreenshot(screenshotDir: string, testInfo: TestInfo): Buffer {
+  const sanitizedTestCaseName = testInfo.title.replace(/[^a-zA-Z0-9]/g, '_');
   const screenshotFiles = fs
     .readdirSync(screenshotDir)
     .filter((file) => file.startsWith(sanitizedTestCaseName))
-    .sort((a, b) => fs.statSync(path.join(screenshotDir, b)).mtimeMs - fs.statSync(path.join(screenshotDir, a)).mtimeMs); // Sort by modification time
-
+    .sort((a, b) => fs.statSync(path.join(screenshotDir, b)).mtimeMs - fs.statSync(path.join(screenshotDir, a)).mtimeMs);
   if (screenshotFiles.length === 0) {
-    console.warn(`No screenshots found for test case: ${testCaseName}`);
-    return Buffer.alloc(0); // Return an empty buffer instead of throwing an error
+    console.warn(`No screenshots found for test case: ${testInfo.title}`);
+    return Buffer.alloc(0);
   }
-
-  const latestScreenshot = screenshotFiles[0]; // Pick the most recent one
+  const latestScreenshot = screenshotFiles[0];
   return fs.readFileSync(path.join(screenshotDir, latestScreenshot));
 }

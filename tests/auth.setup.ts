@@ -5,9 +5,8 @@ import { LoginPage } from "@pages/LoginPage";
 
 setup("Authenticate and save storage state", async ({ page }) => {
   const loginPage = new LoginPage(page);
-    await loginPage.navigateTo();
-    await loginPage.login(process.env.TEST_EMAIL!, process.env.TEST_PASSWORD!);
-    await loginPage.verifyLoginSuccessful();
+    await loginPage.goto();
+    await loginPage.loginEmailCredential(process.env.TEST_EMAIL!, process.env.TEST_PASSWORD!);
+    await loginPage.verifyLoginSuccess();
     await page.context().storageState({ path: STORAGE_STATE });
-    console.log("Authentication successful, storage state saved.");
 });
