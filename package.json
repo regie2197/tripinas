@@ -12,7 +12,11 @@
     "registration-test": "npx playwright test tests/features/registration.spec.ts --project chromium",
     "registration-test-ui": "npx playwright test tests/features/registration.spec.ts --project chromium -ui",
     "signIn": "npx playwright test tests/features/signIn.spec.ts",
-    "signInUI": "npx playwright test tests/features/signIn.spec.ts --ui"
+    "signInUI": "npx playwright test tests/features/signIn.spec.ts --ui",
+    "dashboard": "npx playwright test tests/features/dashboard.spec.ts",
+    "dashboardUI": "npx playwright test tests/features/dashboard.spec.ts --ui",
+    "signUp": "npx playwright test tests/features/signUp.spec.ts",
+    "signUpUI": "npx playwright test tests/features/signUp.spec.ts --ui"
   },
   "repository": {
     "type": "git",
@@ -31,7 +35,7 @@
   ],
   "devDependencies": {
     "@estruyf/github-actions-reporter": "^1.10.0",
-    "@faker-js/faker": "^9.5.0",
+    "@faker-js/faker": "^9.9.0",
     "@playwright/test": "^1.54.2",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.3.0",

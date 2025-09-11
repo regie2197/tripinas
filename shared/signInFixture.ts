@@ -1,5 +1,5 @@
 import { test as base } from '@playwright/test';
-import { signInPage } from '../pages/sign-inPage';
+import { signInPage } from '../pages/signInPage';
 
 type MyFixtures = {
   signInPage: signInPage;
