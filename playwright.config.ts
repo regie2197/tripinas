@@ -41,6 +41,8 @@ export default defineConfig({
   use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:5173/sign-in',
+    screenshot: 'only-on-failure',      // auto-screenshot if test fails
+    video: 'retain-on-failure',         // record video if test fails
 
     /* Collect trace when retrying the failed test. See https://playwright.dev/docs/trace-viewer */
     trace: 'on-first-retry',
@@ -51,6 +53,7 @@ export default defineConfig({
      {
       name: "setup",
       testMatch: "**/*.setup.ts",
+      
     },
     {
       name: "e2e",
