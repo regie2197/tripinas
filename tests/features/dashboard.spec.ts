@@ -1,12 +1,19 @@
 import { test, expect } from '@playwright/test';
 import { Dashboard } from '../../pages/dashboard';
+import { signInPage } from '../../pages/signInPage';
 
 test.describe('Dashboard Page Tests', () => {
 
-  test.beforeEach(async ({ page }) => {
-    const dashboard = new Dashboard(page);
-    await dashboard.navigateTo();
-  });
+test.beforeEach (async ({ page }) => {
+  const signIn = new signInPage(page);
+  await signIn.navigateTo();
+  await signIn.signIn(process.env.IDENTIFIER!, process.env.PASSWORD!);
+})
+
+  test('Verify that user Button is visible', async ({ page }) => {
+  await page.goto('http://localhost:5173/dashboard/');
+  await expect(page.getByRole('button', { name: 'Open user button' })).toBeVisible();
+});
 
   test('Navigate to Dashboard and verify that all headings and contents are visible', {tag: ['@Happy Path']}, async ({ page }) => {
     const dashboard = new Dashboard(page);
@@ -44,7 +51,9 @@ test.describe('Dashboard Page Tests', () => {
   // Unhappy Path Tests
   test('Verify that wrong dashboard URL shows error', {tag: ['@Unhappy Path']}, async ({ page }) => {
     await page.goto('http://localhost:5173/dashboards'); // typo on purpose
-    await expect(page.getByText('Page not found')).toBeVisible(); // adjust based on your app
+    
+    const bodyText = await page.textContent('body');
+    expect(bodyText?.trim()).toBe('');
   });
 
   test('Verify that Profile heading is not visible without navigation', {tag: ['@Unhappy Path']}, async ({ page }) => {

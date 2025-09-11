@@ -1,6 +1,12 @@
 import { expect, Locator, Page } from '@playwright/test';
 
 export class signInPage {
+    static signIn(arg0: string, arg1: string) {
+      throw new Error('Method not implemented.');
+    }
+    static navigateTo() {
+      throw new Error('Method not implemented.');
+    }
     public readonly headingSignIn: Locator;
     public readonly headingWelcome: Locator;
     public readonly inputUsername: Locator;
@@ -61,3 +67,5 @@ export class signInPage {
         //Can't go any further as Verification Code is outside the scope.
     }
 }
+
+export default signInPage;

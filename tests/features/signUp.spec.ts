@@ -22,7 +22,7 @@ test.describe('Sign Up Tests', () => {
     const firstName = faker.person.firstName();
     const lastName = faker.person.lastName();
 
-    // Generate safe username with only letters, numbers, "-" and "_"
+    // Generate username with only letters, numbers, "-" and "_"
     let rawUsername = faker.internet.userName({ firstName, lastName }).toLowerCase();
     let username = rawUsername.replace(/[^a-z0-9-_]/g, '_');
 
@@ -42,16 +42,16 @@ test.describe('Sign Up Tests', () => {
   test('Verify that user cannot register with missing username, wrong email, or weak password', { tag: ['@UnhappyPath', '@faker-js'] }, async () => {
   // 1. Missing username
   await signUpPage.enterAccountDetails(
-    '', // no first name
-    '', // no last name
-    '', // no username
+    '', // no first name for brevity
+    '', // no last name for brevity
+    '', // no username  for brevity
     faker.internet.email(),
     faker.internet.password({ length: 10 })
   );
   await signUpPage.submitAccountDetails();
 
   const usernameInput = signUpPage.page.locator('input[name="username"]');
-  await expect(usernameInput).toHaveJSProperty('validationMessage', 'Please fill out this field.', { timeout: 10000 });
+  await expect(usernameInput).toHaveJSProperty('validationMessage', 'Please fill out this field.', );
 
 
   // 2. Wrong email format
@@ -63,9 +63,10 @@ test.describe('Sign Up Tests', () => {
     faker.internet.password({ length: 8 })
   );
   await signUpPage.submitAccountDetails();
+  await signUpPage.submitAccountDetails();
 
-  const emailInput = signUpPage.page.locator('input[name="email"]');
-  await expect(emailInput).toHaveJSProperty('validationMessage', 'Please match the requested format.', { timeout: 10000 });
+  const emailInput = signUpPage.page.getByRole('textbox', { name: 'Email address' })
+  await expect(emailInput).toHaveJSProperty('validationMessage', 'Please match the requested format.');
 
 
   // 3. Weak password
@@ -78,6 +79,6 @@ test.describe('Sign Up Tests', () => {
   );
   await signUpPage.submitAccountDetails();
 
-  await expect(signUpPage.page.getByText(/Your password must contain 8 or more characters/i)).toBeVisible({ timeout: 10000 });
+  await expect(signUpPage.page.getByText(/Your password must contain 8 or more characters/i)).toBeVisible();
 });
 });

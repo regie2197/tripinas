@@ -9,7 +9,6 @@ import dotenv from "dotenv";
  */
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
-export const STORAGE_STATE = path.join(__dirname, "./.auth/user.json");
 /**
  * See https://playwright.dev/docs/test-configuration.
  */
@@ -38,7 +37,7 @@ export default defineConfig({
   ],
   //reporter: 'html',
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
-  use: {
+    use: {
     /* Base URL to use in actions like `await page.goto('/')`. */
     baseURL: 'http://localhost:5173/sign-in',
 
@@ -48,21 +47,21 @@ export default defineConfig({
 
   /* Configure projects for major browsers */
   projects: [
-     {
-      name: "setup",
-      testMatch: "**/*.setup.ts",
-    },
-    /*{
-      name: "e2e",
-      dependencies: ["setup"],
-      use: {
-        storageState: STORAGE_STATE,
-        ...devices["Desktop Chrome"],
-        launchOptions: {
-          args: ["--start-maximized"],
-        },
-      },
-    },*/
+    //*{
+    //  name: "setup",
+    //  testMatch: "**/*.setup.ts",
+    //},
+    //{
+    //  name: "e2e",
+     // dependencies: ["setup"],
+      //use: {
+       // storageState: STORAGE_STATE,
+        //...devices["Desktop Chrome"],
+        //launchOptions: {
+          //args: ["--start-maximized"],
+        //},
+      //},
+    //},
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },

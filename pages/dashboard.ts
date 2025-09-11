@@ -65,7 +65,7 @@ async goToManageSecurity(): Promise<void> {
   await this.buttonUserButton.click();
   await this.menuItemManageProfile.click();
   await this.buttonSecurity.click();
-  await this.headingProfileDetails.click();
+  await this.headingSecurity.waitFor();
 
 }
 
