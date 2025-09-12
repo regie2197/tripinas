@@ -52,11 +52,19 @@ export class LoginPage {
    await this.emailInput.fill("testEmail@email");
   
   }
-async verifyIncorrectPassword(email: string, password: string): Promise<void> {
+   async verifyIncorrectPassword({ email, password }: { email: string; password: string; }): Promise<void> {
     await this.enterEmail(email);
     await this.clickContinue();
     await this.passwordInput.fill("shhskhdfkhsdk")
     await this.clickContinue();
   }
+
+   async loginAuth(email: string, password: string): Promise<void> {
+    await this.enterEmail(process.env.SAUCE_USERNAME!);
+    await this.clickContinue();
+    await this.enterPassword(process.env.TEST_PASSWORD!);
+    await this.clickContinue();
+
+   }
 
 }

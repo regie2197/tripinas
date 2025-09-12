@@ -143,7 +143,7 @@ test.describe("password validation", () => {
         });
 
         await test.step("Check password entered is valid", async () => {
-          await loginPage.verifyIncorrectPassword();
+          await loginPage.verifyIncorrectPassword;
           await loginPage.clickContinue();
           // Assert the visible error
           //const error = page.locator('div').filter({ hasText: "Couldn't find your account" });
