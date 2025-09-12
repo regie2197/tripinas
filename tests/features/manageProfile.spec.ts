@@ -1,0 +1,72 @@
+import { test, expect } from '@playwright/test';
+import { ManageProfile } from '../../pages/manageProfile';
+import { faker } from '@faker-js/faker';
+import { signInPage } from '../../pages/signInPage';
+
+test.describe('Manage Profile Tests', () => {
+  let manageProfile: ManageProfile;
+
+  test.beforeEach(async ({ page }) => {
+    const signIn = new signInPage(page);
+    manageProfile = new ManageProfile(page);
+
+    await signIn.navigateTo();
+    await signIn.signIn(process.env.IDENTIFIER!, process.env.PASSWORD!);
+
+    await manageProfile.openManageProfile();
+  });
+
+  test('Verify that user can update First & Last names with valid details', { tag: ['@Happy Path'] }, async ( {page} ) => {
+    const newFirstName = faker.person.firstName();
+    const newLastName = faker.person.lastName();
+
+    await manageProfile.updateProfileName(newFirstName, newLastName);
+
+    await page.goto('http://localhost:5173/dashboard');
+    await expect(page.getByTestId('user-fullname')).toHaveText(`Name: ${newFirstName} ${newLastName}`);
+  });
+
+  test('Verify that user can cancel profile change', { tag: ['@Happy Path'] }, async () => {
+    await manageProfile.cancelProfileUpdate();
+    await expect(manageProfile.profileDetailsHeading).toBeVisible();
+  });
+
+  test.skip('Verify that user can update username with valid value', { tag: ['@Happy Path'] }, async ({ page }) => {
+    const newUsername = faker.internet.userName();
+    await manageProfile.updateUsername(newUsername);
+
+    await expect(page.getByRole('heading', { name: 'Verification required' })).toBeVisible();
+    await page.getByRole('textbox', { name: 'Password' }).fill('regietest');
+    await page.getByRole('button', { name: 'Continue' }).click();
+    await expect(manageProfile.usernameText).toHaveText(newUsername);
+  });
+
+  test('Verify that email verification will be triggered when user wants to confirm email', { tag: ['@Happy Path'] }, async () => {
+    await manageProfile.verifyEmail();
+    await expect(manageProfile.verificationCodeText).toBeVisible();
+    await expect(manageProfile.verifyButton).toBeVisible();
+  });
+
+  test('Verify that user can sign out', { tag: ['@Happy Path'] }, async ( {page} ) => {
+    await manageProfile.closeModal();
+    await manageProfile.openUserButton.click();
+    await page.getByRole('menuitem', { name: 'Sign out' }).click();
+    await expect(manageProfile.page).toHaveURL('http://localhost:5173/sign-in');
+  });
+
+  test('User can upload a new profile photo', { tag: ['@Happy Path'] }, async () => {
+    const testImagePath = 'test-data/profile-pic.png';
+
+    await manageProfile.updateProfileButton.click();
+    await manageProfile.uploadInput.setInputFiles(testImagePath);
+    await manageProfile.saveButton.click();
+
+    // Assert the profile image is visible after upload
+    await expect(manageProfile.profileLogoImg).toBeVisible();
+  });
+
+  test('Verify that invalid username format will be rejected', { tag: ['@Unhappy Path'] }, async () => {
+    await manageProfile.updateUsername('!@#invalid');
+    await expect(manageProfile.usernameTextbox).toHaveAttribute('aria-invalid', 'true');
+  });
+});

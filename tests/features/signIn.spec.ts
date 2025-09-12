@@ -1,4 +1,5 @@
 import { test, expect } from '../../shared/signInFixture';
+import { signInPage } from '../../pages/signInPage';
 
 test.describe('Sign In Page Tests', () => {
 

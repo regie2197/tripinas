@@ -1,7 +1,7 @@
 {
   "name": "tripinas",
   "version": "1.0.0",
-  "description": "Start of Amazing Journey",
+  "description": "Start of Our Amazing Journey",
   "main": "index.js",
   "scripts": {
     "start-fe": "npm --workspace frontend start",
@@ -16,7 +16,9 @@
     "dashboard": "npx playwright test tests/features/dashboard.spec.ts",
     "dashboardUI": "npx playwright test tests/features/dashboard.spec.ts --ui",
     "signUp": "npx playwright test tests/features/signUp.spec.ts",
-    "signUpUI": "npx playwright test tests/features/signUp.spec.ts --ui"
+    "signUpUI": "npx playwright test tests/features/signUp.spec.ts --ui",
+    "manageProfUI": "npx playwright test tests/features/manageProfile.spec.ts --ui",
+    "manageSecUI": "npx playwright test tests/features/manageSecurity.spec.ts --ui"
   },
   "repository": {
     "type": "git",
