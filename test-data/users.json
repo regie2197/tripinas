@@ -4,11 +4,6 @@
     "username": "regietest21",
     "email": "regietest@example.com",
     "password": "regietest"
-  },
-  {
-    "fullName": "Juan Dela Cruz",
-    "username": "regietest",
-    "email": "regietest@email.com",
-    "password": "regietest"
   }
 ]
+  

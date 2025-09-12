@@ -1,3 +1,5 @@
+
+
 import { expect, Locator, Page } from '@playwright/test';
 
 export class LoginPage {
@@ -45,4 +47,16 @@ export class LoginPage {
     await this.page.waitForURL(expectedUrl);
     await expect(this.page).toHaveURL(expectedUrl);
   }
+
+  async verifyIncorrectEmail(): Promise<void>{
+   await this.emailInput.fill("testEmail@email");
+  
+  }
+async verifyIncorrectPassword(email: string, password: string): Promise<void> {
+    await this.enterEmail(email);
+    await this.clickContinue();
+    await this.passwordInput.fill("shhskhdfkhsdk")
+    await this.clickContinue();
+  }
+
 }
