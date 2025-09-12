@@ -6,9 +6,15 @@
     "password": "regietest"
   },
   {
-    "fullName": "Juan Dela Cruz",
+    "fullName": "Danial Dietrich",
     "username": "regietest",
     "email": "regietest@email.com",
     "password": "regietest"
+  },
+  {
+    "fullName": "Jenn Gopez",
+    "username": "jentest01",
+    "email": "iamjenig@gmail.com",
+    "password": "jentest01"
   }
 ]
