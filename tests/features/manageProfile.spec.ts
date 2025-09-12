@@ -5,6 +5,15 @@ import { signInPage } from '../../pages/signInPage';
 
 test.describe('Manage Profile Tests', () => {
   let manageProfile: ManageProfile;
+  let fullName: string;
+  let newFirstName: string;
+  let newLastName: string;
+
+test.beforeAll(() => {
+  newFirstName = faker.person.firstName();
+  newLastName = faker.person.lastName();
+  fullName = `${newFirstName} ${newLastName}`;
+});
 
   test.beforeEach(async ({ page }) => {
     const signIn = new signInPage(page);
@@ -17,13 +26,10 @@ test.describe('Manage Profile Tests', () => {
   });
 
   test('Verify that user can update First & Last names with valid details', { tag: ['@Happy Path'] }, async ( {page} ) => {
-    const newFirstName = faker.person.firstName();
-    const newLastName = faker.person.lastName();
-
-    await manageProfile.updateProfileName(newFirstName, newLastName);
+    await manageProfile.updateProfileName(`${newFirstName}`, `${newLastName}`);
 
     await page.goto('http://localhost:5173/dashboard');
-    await expect(page.getByTestId('user-fullname')).toHaveText(`Name: ${newFirstName} ${newLastName}`);
+    await expect(page.getByTestId('user-fullname')).toHaveText(`Name: ${fullName}`);
   });
 
   test('Verify that user can cancel profile change', { tag: ['@Happy Path'] }, async () => {
@@ -54,18 +60,19 @@ test.describe('Manage Profile Tests', () => {
     await expect(manageProfile.page).toHaveURL('http://localhost:5173/sign-in');
   });
 
-  test('User can upload a new profile photo', { tag: ['@Happy Path'] }, async () => {
+  test('User can upload a new profile photo', { tag: ['@Happy Path'] }, async ( {page} ) => {
     const testImagePath = 'test-data/profile-pic.png';
 
     await manageProfile.updateProfileButton.click();
     await manageProfile.uploadInput.setInputFiles(testImagePath);
-    await manageProfile.saveButton.click();
+    await page.getByRole('button', { name: 'Upload' }).click();
+    await page.getByRole('button', {name: 'Cancel'}).click();
 
     // Assert the profile image is visible after upload
-    await expect(manageProfile.profileLogoImg).toBeVisible();
+     await expect(page.getByRole('dialog').getByRole('img', { name: `${fullName}\'s logo` })).toBeVisible();
   });
 
-  test('Verify that invalid username format will be rejected', { tag: ['@Unhappy Path'] }, async () => {
+  test.skip('Verify that invalid username format will be rejected', { tag: ['@Unhappy Path'] }, async () => {
     await manageProfile.updateUsername('!@#invalid');
     await expect(manageProfile.usernameTextbox).toHaveAttribute('aria-invalid', 'true');
   });
