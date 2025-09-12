@@ -48,8 +48,6 @@ export class ManageSecurity {
   }
   // Methods
   async navigateToSecurity() {
-    await this.page.goto('http://localhost:5173/dashboard');
-    await this.page.waitForLoadState('domcontentloaded');
     await this.openUserButton.click();
     await this.manageAccountMenuItem.click();
     await this.securityButton.click();
