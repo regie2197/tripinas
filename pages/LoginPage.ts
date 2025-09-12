@@ -78,12 +78,4 @@ export class LoginPage {
         await expect(this.usernameInput).toContainText(expectedUserName);
         await expect(this.emailInput).toContainText(expectedEmail);
     }
-
-    // Logout from the main page
-    async logout(emailOrUsername: string, password: string): Promise<void> {
-        await this.openUserButton.click();
-        await this.logoutMenu.click();
-        await expect(this.pageHeading).toHaveText('Sign in to Tripinas');
-
-    }
 }

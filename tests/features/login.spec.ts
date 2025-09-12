@@ -51,8 +51,6 @@ test.describe("Login Test Suite", { tag: ["@Smoke-Testing", "@Sprint-1"] }, () =
                     LOGIN_FAILURE_SCREENSHOT
                 );
             });
-        });
-        
-        
+        }); 
     }  
 });
