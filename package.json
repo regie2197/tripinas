@@ -14,7 +14,9 @@
     "dashboard-test": "npx playwright test tests/features/dashboard.spec.ts --project chromium",
     "dashboard-test-ui": "npx playwright test tests/features/dashboard.spec.ts --project chromium --ui",
     "boundary-test": "npx playwright test tests/features/boundary.spec.ts --project chromium",
-    "boundary-test-ui": "npx playwright test tests/features/boundary.spec.ts --project chromium --ui"
+    "boundary-test-ui": "npx playwright test tests/features/boundary.spec.ts --project chromium --ui",
+    "manageaccount-test": "npx playwright test tests/features/manageaccount.spec.ts --project chromium",
+    "manageaccount-test-ui": "npx playwright test tests/features/manageaccount.spec.ts --project chromium --ui"
   },
   "repository": {
     "type": "git",
