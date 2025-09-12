@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { ManageProfile } from '../../pages/manageProfile';
 import { faker } from '@faker-js/faker';
 import { signInPage } from '../../pages/signInPage';
+import { takeScreenshot } from '../../shared/screenshotUtils';
 
 test.describe('Manage Profile Tests', () => {
   let manageProfile: ManageProfile;
@@ -60,17 +61,26 @@ test.beforeAll(() => {
     await expect(manageProfile.page).toHaveURL('http://localhost:5173/sign-in');
   });
 
-  test('User can upload a new profile photo', { tag: ['@Happy Path'] }, async ( {page} ) => {
-    const testImagePath = 'test-data/profile-pic.png';
+test('Verify that user can upload a new profile photo', async ({ page }, testInfo) => {
+  const manageProfile = new ManageProfile(page);
+  const testImagePath = 'test-data/profile-pic.png';
 
+  try {
     await manageProfile.updateProfileButton.click();
     await manageProfile.uploadInput.setInputFiles(testImagePath);
     await page.getByRole('button', { name: 'Upload' }).click();
-    await page.getByRole('button', {name: 'Cancel'}).click();
+    await page.getByRole('button', { name: 'Cancel' }).click();
 
-    // Assert the profile image is visible after upload
-     await expect(page.getByRole('dialog').getByRole('img', { name: `${fullName}\'s logo` })).toBeVisible();
-  });
+    // Force failure to test screenshots
+    await expect(page.getByRole('dialog').getByRole('img', { name: `WRONG NAME` }))
+      .toBeVisible();
+
+  } catch (err) {
+    console.log(`❌ Test "${testInfo.title}" failed → taking screenshot`);
+    await takeScreenshot(page, testInfo.title);
+    throw err;
+  }
+});
 
   test.skip('Verify that invalid username format will be rejected', { tag: ['@Unhappy Path'] }, async () => {
     await manageProfile.updateUsername('!@#invalid');

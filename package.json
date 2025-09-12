@@ -17,7 +17,9 @@
     "dashboardUI": "npx playwright test tests/features/dashboard.spec.ts --ui",
     "signUp": "npx playwright test tests/features/signUp.spec.ts",
     "signUpUI": "npx playwright test tests/features/signUp.spec.ts --ui",
+    "manageProf": "npx playwright test tests/features/manageProfile.spec.ts",
     "manageProfUI": "npx playwright test tests/features/manageProfile.spec.ts --ui",
+    "manageSec": "npx playwright test tests/features/manageSecurity.spec.ts",
     "manageSecUI": "npx playwright test tests/features/manageSecurity.spec.ts --ui"
   },
   "repository": {
