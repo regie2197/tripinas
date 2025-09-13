@@ -140,8 +140,11 @@ vite.config.ts.timestamp-*
 
 # Playwright
 /test-results/
-/test-screenshots/
 /playwright-report/
 /blob-report/
 /playwright/.cache/
-.auth
+
+
+.auth/user.json
+test-screenshots/
+test-data/

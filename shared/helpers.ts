@@ -1,7 +1,7 @@
 import { Page, TestInfo } from '@playwright/test';
-import { takeScreenshot, readLatestScreenshot } from './utils';
+import { takeScreenshot, readLatestScreenshot } from './utils.ts';
 import { existsSync, mkdirSync } from 'fs';
-import * as path from 'path';
+import path from 'path';
 
 
 const SCREENSHOT_DIR = 'test-screenshots';

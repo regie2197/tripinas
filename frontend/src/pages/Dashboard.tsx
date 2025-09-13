@@ -1,6 +1,6 @@
 import { SignedIn, SignedOut, UserButton } from "@clerk/clerk-react";
-import AdminPanel from "../components/custom/AdminPanel";
-import UserProfile from "../components/custom/UserProfile";
+import AdminPanel from "../components/AdminPanel";
+import UserProfile from "../components/UserProfile";
 
 export default function Dashboard() {
   return (
@@ -34,7 +34,7 @@ export default function Dashboard() {
         </div>
       </SignedIn>
       <SignedOut>
-        <p data-testid="already-signed-out" style={{ textAlign: "center", marginTop: "2rem" }}>
+        <p style={{ textAlign: "center", marginTop: "2rem" }}>
           You are signed out. <a href="/sign-in">Sign in</a>
         </p>
       </SignedOut>

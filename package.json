@@ -4,13 +4,29 @@
   "description": "Start of Amazing Journey",
   "main": "index.js",
   "scripts": {
-    "start-fe": "npm --workspace frontend start",
-    "start-be": "npm --workspace backend start",
+    
+    "start:frontend": "npm --workspace frontend start",
+    "start:backend": "npm --workspace backend start",
     "test": "npx playwright test",
-    "login-test": "npx playwright test tests/features/login.spec.ts --project chromium",
-    "login-test-ui": "npx playwright test tests/features/login.spec.ts --project chromium -ui",
+    "login-test": "npx playwright test login.spec.ts --project chromium",
+    "login-test-ui": "npx playwright test login.spec.ts --ui",
     "registration-test": "npx playwright test tests/features/registration.spec.ts --project chromium",
-    "registration-test-ui": "npx playwright test tests/features/registration.spec.ts --project chromium -ui"
+    "registration-test-ui": "npx playwright test tests/features/registration.spec.ts --ui",
+    "dashboard-test": "npx playwright test tests/features/dashboard.spec.ts --project chromium",
+    "dashboard-test-ui": "npx playwright test tests/features/dashboard.spec.ts --ui",
+    "auth-setup": "npx playwright test auth.setup.ts --ui --project setup",
+    "e2e-auth-ui": "npx playwright test tests/features/e2e-auth.spec.ts --project e2e --ui",
+    "e2e-auth": "npx playwright test tests/features/e2e-auth.spec.ts --project chromium --trace on",
+    "e2e-unauth": "npx playwright test tests/features/e2e-unauth.spec.ts --project chromium",
+    "user-api-test": "npx playwright test user.api.spec.ts --project api",
+    "ui-registration": "npx playwright test tests/ui-validation/ui-registration.spec.ts --project chromium",
+    "ui-registration-test": "npx playwright test tests/ui-validation/ui-registration.spec.ts --ui",
+    "ui-login-test": "npx playwright test tests/ui-validation/ui-login.spec.ts --project chromium",
+    "ui-dashboard": "npx playwright test tests/ui-validation/ui-dashboard.spec.ts --project chromium",
+    "ui-dashboard-test": "npx playwright test tests/ui-validation/ui-dashboard.spec.ts --ui"
+
+
+
   },
   "repository": {
     "type": "git",
@@ -30,17 +46,20 @@
   "devDependencies": {
     "@estruyf/github-actions-reporter": "^1.10.0",
     "@faker-js/faker": "^9.5.0",
-    "@playwright/test": "^1.54.2",
+    "@playwright/test": "^1.55.0",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.3.0",
     "chrome-launcher": "^1.2.0",
     "dotenv": "^16.6.1",
     "js-yaml": "^4.1.0",
-    "lighthouse": "^12.7.0",
+    "lighthouse": "^12.8.2",
     "playwright-html": "1.2.5",
     "pw-api-plugin": "^2.0.2"
   },
   "dependencies": {
     "@clerk/elements": "^0.23.59"
+  },
+  "directories": {
+    "test": "tests"
   }
 }
