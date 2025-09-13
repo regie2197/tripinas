@@ -34,7 +34,8 @@ export class RegistrationPage {
         await this.showPasswordButton.click();
     }
     async verifyRegistrationSuccess() {
-        await expect(this.page).toHaveURL('http://localhost:5173/dashboard');
+        await expect(this.page).toHaveURL('http://localhost:5173/dashboard/');
+        await this.page.waitForLoadState('domcontentloaded');
         await this.page.getByRole('heading', { name: 'Dashboard Home' }).click();
 
         await expect(this.page.getByTestId('user-fullname')).toBeVisible();
@@ -110,7 +111,7 @@ export class RegistrationPage {
         await expect(this.page.locator('#error-emailAddress')).toContainText(expectedErrorMessage);
     }
     async expectShortenedPasswordError(expectedErrorMessage: string) {
-      await expect(this.page.locator('p.cl-formFieldErrorText')).toBeVisible({ timeout: 5000 });
+      await expect(this.page.getByText('Your password must contain 8 or more characters.')).toBeVisible({ timeout: 5000 });
       await expect(this.page.locator('#error-password')).toContainText(expectedErrorMessage);
     }
     async expectSequentialPasswordError(expectedErrorMessage: string) {
@@ -126,5 +127,5 @@ export class RegistrationPage {
       await expect(this.page.locator('#error-password')).toContainText(expectedErrorMessage);
     }
 }
+ // Note: @Regression: Test is flaky and needs stabilization with URL http://localhost:5173/dashboard (Error: waiting for navigation to "http://localhost:5173/dashboard" until "load")
     
-

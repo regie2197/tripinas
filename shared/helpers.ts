@@ -1,10 +1,11 @@
 import { Page, TestInfo } from '@playwright/test';
-import { takeScreenshot, readLatestScreenshot } from './utils';
-import { existsSync, mkdirSync } from 'fs';
-import * as path from 'path';
+import { takeScreenshot } from './utils';
 
+const SCREENSHOT_DIR = 'screenshots';
 
-const SCREENSHOT_DIR = 'test-screenshots';
+export function generateRandomCode(): string {
+  return Math.floor(100000 + Math.random() * 900000).toString();
+}
 
 /**
  * Attaches a screenshot to the Playwright test report.
@@ -18,42 +19,4 @@ export async function attachScreenshot(
   screenshotName: string
 ): Promise<void> {
   await takeScreenshot(page, testInfo, SCREENSHOT_DIR);
-  const screenshotBuffer = readLatestScreenshot(SCREENSHOT_DIR, testInfo);
-  await testInfo.attach(screenshotName, {
-    body: screenshotBuffer,
-    contentType: 'image/png',
-  });
-}
-
-/**
- * Ensures the directory and file exist securely.
- * @param directoryPath - The directory where the file is located.
- * @param fileName - The name of the file to check.
- * @returns The full path to the file.
- * @throws Error if the file does not exist or if path traversal is detected.
- */
-export function ensureFileExists(directoryPath: string, fileName: string): string {
-  // Resolve the base directory to an absolute path
-  const baseDirectory = path.resolve(directoryPath);
-
-  const sanitizedFileName = fileName.replace(/(\.\.[\/\\])/g, ''); // Remove directory traversal patterns
-  const filePath = path.join(baseDirectory, sanitizedFileName);
-
-  // Ensure the resolved path is within the base directory
-  if (!filePath.startsWith(baseDirectory)) {
-    throw new Error('Path traversal detected');
-  }
-
-  // Ensure the directory exists
-  if (!existsSync(baseDirectory)) {
-    mkdirSync(baseDirectory, { recursive: true });
-    console.log(`Directory created: ${baseDirectory}`);
-  }
-
-  // Ensure the file exists
-  if (!existsSync(filePath)) {
-    throw new Error(`File not found: ${filePath}`);
-  }
-
-  return filePath;
 }

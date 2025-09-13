@@ -1,20 +1,50 @@
 [
 {
   "fullName": "Marianne Cecilio",
-  "username": "mgctest_test012",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "usernametest_01",
+  "email": "username@test.com",
+  "password": "mgctest0812"
+},
+{
+  "fullName": "Marianne Cecilio",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "mgctest_test1282",
+  "email": "testing1982@test.com",
+  "password": "mgctest0812"
+},
+{
+  "fullName": "Marianne Cecilio",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "mgctest_test012",   
+  "email": "usernametaken@test.com",
+  "shortPassword": "mgctest"
+},
+{
+  "fullName": "Marianne Cecilio",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "emailtaken_01",
   "email": "mariannegracececilio.talentpop@gmail.com",
-  "password": "mgctest0812"
+  "sequentialPassword": "12345678"
 },
 {
-  "fullName": "Marianne C",
-  "username": "mgctest_test1982",
-  "email": "mariannegracececilio@gmail.com",
-  "password": "mgctest0812"
+"fullName": "Marianne Cecilio",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "regtest_01",
+  "email": "regtest01@test.com",
+  "repeatPassword": "test112233"
 },
 {
-  "lesseightPassword": "mgctest",
-  "sequentialPassword": "password123",
-  "commonPassword": "12345678",
-  "repeatingDigitsPassword": "test112233"
+  "fullName": "Marianne Cecilio",
+  "firstName": "Marianne",
+  "lastName": "Cecilio",
+  "username": "regtest_01",
+  "email": "regtest01@test.com",
+  "commonPassword": "test1234"
 }
 ]

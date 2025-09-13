@@ -1,48 +1,99 @@
-import { expect, Locator, Page } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class LoginPage {
-  // Locators
-  public readonly emailInput: Locator;
-  public readonly passwordInput: Locator;
-  public readonly continueButton: Locator;
+    public readonly page: Page;
+    public readonly usernameInput: Locator;
+    public readonly emailInput: Locator;
+    public readonly passwordInput: Locator;
+    public readonly continueButton: Locator;
+    public readonly showPasswordButton: Locator;
+    public readonly forgotPasswordLink: Locator;
+    public readonly resetPasswordButton: Locator;
+    public readonly resendCodeButton: Locator;
+    public readonly verificationCodeInput: Locator;
 
-  constructor(public readonly page: Page) {
-    this.emailInput = page.getByRole('textbox', { name: 'Email address or username' });
-    this.passwordInput = page.getByRole('textbox', { name: 'Password' });
-    this.continueButton = page.getByRole('button', { name: 'Continue' });
-  }
+    constructor(page: Page) {
+        this.page = page;
+        this.usernameInput = page.getByRole('textbox', { name: 'Email address or username' });
+        this.emailInput = page.getByRole('textbox', { name: 'Email address' });
+        this.passwordInput = page.getByRole('textbox', { name: 'Password' });
+        this.continueButton = page.getByRole('button', { name: 'Continue' });
+        this.showPasswordButton = page.getByRole('button', { name: 'Show password' });
+        this.forgotPasswordLink = page.getByRole('link', { name: 'Forgot password?' });
+        this.resetPasswordButton = page.getByRole('button', { name: 'Reset your password' });
+        this.resendCodeButton = page.getByRole('button', { name: 'Resend code' });
+        this.verificationCodeInput = page.getByRole('textbox', { name: 'Enter verification code' });
+    }
 
-  // Actions
-  async navigateTo(): Promise<void> {
-    await this.page.goto('http://localhost:5173/sign-in');
-  }
+    async goto(): Promise<void> {
+        await this.page.goto(process.env.TRIPINAS_BASE_URL + 'sign-in');
+        await this.page.waitForLoadState('domcontentloaded');
+    }
 
-  async enterEmail(email: string): Promise<void> {
-    await this.emailInput.fill(email);
-  }
+    async isSignInHeadingVisible(): Promise<void> {
+        await this.page.getByRole('heading', { name: 'Sign in to Tripinas' }).isVisible();
+    }
 
-  async enterPassword(password: string): Promise<void> {
-    await this.passwordInput.fill(password);
-  }
+    async loginUsernameCredential(username: string, password: string): Promise<void> {
+        await expect(this.usernameInput).toBeVisible();
+        await this.usernameInput.fill(username);
+        await this.continueButton.click();
+        await this.passwordInput.fill(password);
+        await this.showPasswordButton.click();
+    }
 
-  async clickContinue(): Promise<void> {
-    await this.continueButton.click();
-  }
+    async clickLoginContinueButton(): Promise<void> {
+        await this.continueButton.click();
+    }
 
-  async login(email: string, password: string): Promise<void> {
-    await this.enterEmail(email);
-    await this.clickContinue();
-    await this.enterPassword(password);
-    await this.clickContinue();
-  }
+    async loginEmailCredential(email: string, password: string): Promise<void> {
+        await expect(this.emailInput).toBeVisible();
+        await this.emailInput.fill(email);
+        await this.continueButton.click();
+        await this.passwordInput.fill(password);
+        await this.showPasswordButton.click();
+    }
 
-  // Assertions
-  async verifyPageLoaded(): Promise<void> {
-    await expect(this.emailInput).toBeVisible();
-  }
+    async verifyLoginSuccess() {
+        await expect(this.page.getByTestId('user-fullname')).toBeVisible();
+        await expect(this.page.getByTestId('user-username')).toBeVisible();
+        await expect(this.page.getByTestId('user-email')).toBeVisible();
+    }
 
-  async verifyLoginSuccessful(expectedUrl: string = 'http://localhost:5173/dashboard'): Promise<void> {
-    await this.page.waitForURL(expectedUrl);
-    await expect(this.page).toHaveURL(expectedUrl);
-  }
+    /*
+    *Perform login with the provided username and incorrect password
+    * @param wrongPassword - The incorrect password to be used for login
+    */
+    async loginWithWrongPassword(username: string, wrongPassword: string): Promise<void> {
+        await expect(this.usernameInput).toBeVisible();
+        await this.usernameInput.fill(username);
+        await this.continueButton.click();
+        await this.passwordInput.fill(wrongPassword);
+        await this.showPasswordButton.click();
+    }
+
+    async requestPasswordReset(): Promise<void> {
+        await expect(this.page.getByRole('link', { name: 'Forgot password?' })).toBeVisible();
+        await this.page.getByRole('link', { name: 'Forgot password?' }).click();
+        await expect(this.resetPasswordButton).toBeVisible();
+        await this.resetPasswordButton.click();
+    }
+    async assertPasswordResetPage(emailMasked: string): Promise<void> {
+        await expect(this.page.getByText('First, enter the code sent to')).toBeVisible();
+        await expect(this.page.getByText(emailMasked)).toBeVisible();
+        await expect(this.verificationCodeInput).toBeVisible();
+    }
+    async submitVerificationCode(code: string): Promise<void> {
+        await this.verificationCodeInput.click();
+        await this.verificationCodeInput.fill(code);
+        await this.continueButton.click();
+    }
+
+    async inputNewCode(code: string): Promise<void> {
+        await this.verificationCodeInput.fill(code);
+        await this.continueButton.click();
+    }
 }
+
+
+

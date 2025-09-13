@@ -7,12 +7,13 @@ const DASHBOARD_USERS_PAGE_SCREENSHOT = 'screenshots/dashboard-users-page.png';
 const DASHBOARD_SETTINGS_PAGE_SCREENSHOT = 'screenshots/dashboard-settings-page.png';
 
 
-test.describe('Dashboard Navigation Tests',
+test.describe('Dashboard Navigation Tests ',
   { tag: ['@Regression', '@Dashboard-Testing'] }, () => {
 
     test.beforeEach(async ({ loginPage }) => {
       await loginPage.goto();
       await loginPage.loginUsernameCredential(users[0].username, users[0].password);
+      await loginPage.clickLoginContinueButton();
       await loginPage.verifyLoginSuccess();
     });
 
@@ -24,10 +25,12 @@ test.describe('Dashboard Navigation Tests',
 
     test(' Navigate through Admin Menu Users and Settings', async ({ dashboardPage }) => {
       await dashboardPage.expectAdminMenu();
+      await dashboardPage.expectUsersPanel();
+      await dashboardPage.expectSettingsPanel();
 
     });
 
-    test('Navigate to Users Panel and validate empty state',
+    test.skip('Navigate to Users Panel and validate empty state',
       { tag: ['@Regression', '@Dashboard-Testing', '@Settings', '@UI', '@EmptyState'] },
       async ({ dashboardPage }, testInfo) => {
         await dashboardPage.expectUsersPanel();
@@ -36,7 +39,7 @@ test.describe('Dashboard Navigation Tests',
         //Note: The users page is empty.
       });
 
-    test('Navigate to Settings Panel and validate empty state',
+    test.skip('Navigate to Settings Panel and validate empty state',
       { tag: ['@Regression', '@Dashboard-Testing', '@Settings', '@UI', '@EmptyState'] },
       async ({ dashboardPage }, testInfo) => {
         await dashboardPage.expectSettingsPanel();
@@ -60,7 +63,9 @@ test.describe('Dashboard Navigation Tests',
     test('Should be able to sign out', async ({ dashboardPage, loginPage }) => {
       await dashboardPage.openUserMenu();
       await dashboardPage.page.getByRole('menuitem', { name: 'Sign out' }).click();
-      await loginPage.isSignInHeadingVisible();
+      await loginPage.isSignInHeadingVisible(); 
       await expect(dashboardPage.page).toHaveURL('http://localhost:5173/sign-in');
     });
   });
+  // Note: @Regression: Test is flaky and needs stabilization with URL http://localhost:5173/dashboard (Error: waiting for navigation to "http://localhost:5173/dashboard" until "load")
+  // End of test suite

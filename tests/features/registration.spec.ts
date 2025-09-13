@@ -18,14 +18,17 @@ test.describe('Registration Test Suite',
     // UI Elements go to Sign in url first before you can Sign up
 
     test('Should be able to register with valid credentials', async ({ registrationPage }, testInfo) => {
-      await registrationPage.fillRegistrationForm('Marianne', 'C', 'mgctest_1282', 'mgc@gmail.com', 'mgctest0812');
+      //arrange
+      await registrationPage.fillRegistrationForm('Marianne', 'Cecilio', 'usernametest_0812', 'username0812@test.com', 'mgctest0812');
+      //act
       await registrationPage.clickContinue();
+      //assert
       await registrationPage.verifyRegistrationSuccess();
       await attachScreenshot(registrationPage.page, testInfo, REGISTRATION_SUCCESS_SCREENSHOT);
     });
 
     test('Should not be able to register with username already taken', async ({ registrationPage }, testInfo) => {
-      await registrationPage.UsernameTaken('Marianne', 'C', 'mgctest_test1282', 'mariannegracececilio@gmail.com', 'mgctest0812');
+      await registrationPage.UsernameTaken('Marianne', 'Cecilio', 'usernametest_0812', 'username03@test.com', 'mgctest0812');
       await registrationPage.clickContinue();
 
       await registrationPage.expectUsernameTakenError('That username is taken. Please try another.');
@@ -33,7 +36,7 @@ test.describe('Registration Test Suite',
     });
 
     test('Should not be able to register with email already taken', async ({ registrationPage }, testInfo) => {
-      await registrationPage.EmailTaken('Marianne', 'C', 'mgctest_test1982', 'mariannegracececilio@gmail.com', 'mgctest0812');
+      await registrationPage.EmailTaken('Marianne', 'Cecilio', 'usernametest_03', 'username0812@test.com', 'mgctest0812');
       await registrationPage.clickContinue();
 
       await registrationPage.expectEmailTakenError('That email address is taken. Please try another.');
@@ -41,7 +44,7 @@ test.describe('Registration Test Suite',
     });
 
     test('Should not be able to register with password less than 8 character password', async ({ registrationPage }, testInfo) => {
-      await registrationPage.registerWithShortPassword('Marianne', 'C', 'mgctest_test1982', 'mariannegracececilio@gmail.com', 'mgctest');
+      await registrationPage.registerWithShortPassword('Marianne', 'Cecilio', 'usernametest_04', 'username04@test.com', 'mgctest');
       await registrationPage.clickContinue();
 
       await registrationPage.expectShortenedPasswordError('Your password must contain 8 or more characters.');
@@ -49,14 +52,14 @@ test.describe('Registration Test Suite',
     });
 
     test('Should not be able to register and displays error for sequential password', async ({ registrationPage }, testInfo) => {
-      await registrationPage.fillRegistrationForm('Marianne', 'C', 'mgctest_02', 'mgctest_02@test.com', '12345678');
+      await registrationPage.fillRegistrationForm('Marianne', 'Cecilio', 'usernametest_04', 'username04@test.com', '12345678');
       await registrationPage.clickContinue();
 
       await registrationPage.expectSequentialPasswordError('This password has been found as part of a breach and can not be used, please try another password instead.');
       await attachScreenshot(registrationPage.page, testInfo, REGISTRATION_SEQUENTIALPASSWORD_SCREENSHOT);
     });
     test('Should not be able to register and displays error for repeating digits password', async ({ registrationPage }, testInfo) => {
-      await registrationPage.registerWithRepeatingDigitsPassword('Marianne', 'C', 'mgctest_03', 'mgctest_03@test.com', '11111111');
+      await registrationPage.registerWithRepeatingDigitsPassword('Marianne', 'Cecilio', 'usernametest_04', 'username04@test.com', '11223344');
       await registrationPage.clickContinue();
 
       await registrationPage.expectRepeatingDigitsPasswordError('This password has been found as part of a breach and can not be used, please try another password instead.');
@@ -64,7 +67,7 @@ test.describe('Registration Test Suite',
     });
 
     test('Should not be able to register and displays error for common password', async ({ registrationPage }, testInfo) => {
-      await registrationPage.registerWithCommonPassword('mgc', 'test', 'mgctest_04', 'mgctest_04@test.com', 'password123');
+      await registrationPage.registerWithCommonPassword('Marianne', 'Cecilio', 'usernametest_04', 'username04@test.com', 'password123');
       await registrationPage.clickContinue();
 
       await registrationPage.expectCommonPasswordError('This password has been found as part of a breach and can not be used, please try another password instead.');

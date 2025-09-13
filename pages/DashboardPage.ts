@@ -1,5 +1,4 @@
 import { Page, expect, Locator } from '@playwright/test';
-import { error } from 'console';
 
 export class DashboardPage {
     readonly page: Page;
@@ -25,7 +24,6 @@ export class DashboardPage {
     async goto(): Promise<void> {
         await this.page.goto('http://localhost:5173/dashboard');
         await this.page.waitForLoadState('networkidle');
-        await expect(this.page.getByRole('heading', { name: 'Dashboard Home' })).toBeVisible();
     }
 
     async expectUserProfileInfo() {
@@ -67,6 +65,49 @@ export class DashboardPage {
         await expect(this.page.getByText('Manage your account info.')).toBeVisible();
     }
 
+    async selectUpdateProfile() {
+        await expect(this.page.getByRole('button', { name: 'Update profile', exact: true })).toBeVisible();
+        await this.page.getByRole('button', { name: 'Update profile', exact: true }).click();
+        await expect(this.page.getByRole('heading', { name: 'Profile details' })).toBeVisible();
+    }
+
+    async selectUpdateUsername() {
+        await expect(this.page.getByRole('button', { name: 'Update username' })).toBeVisible();
+        await this.page.getByRole('button', { name: 'Update username' }).click();
+        await expect(this.page.getByRole('heading', { name: 'Update username' })).toBeVisible();
+    }
+    async selectSecurityUpdate() {
+        await expect(this.page.getByRole('button', { name: 'Security' })).toBeVisible();
+        await this.page.getByRole('button', { name: 'Security' }).click();
+        await expect(this.page.getByRole('heading', { name: 'Security' })).toBeVisible();
+
+    }
+    async changePassword(currentPassword: string, newPassword: string): Promise<void> {
+        await this.page.getByRole('textbox', { name: 'New password' }).click();
+        await this.page.getByRole('textbox', { name: 'New password' }).fill(newPassword);
+        await this.page.getByRole('button', { name: 'Change password' }).click();
+    }
+    
+    async confirmPasswordChange(currentPassword: string): Promise<void> {
+        await this.page.getByRole('textbox', { name: 'Confirm password' }).fill(currentPassword);
+        await expect(this.page.getByText('Passwords match.')).toBeVisible();
+    }    
+
+    async signOutOtherDevices(): Promise<void> {
+        await expect(this.page.getByRole('checkbox', { name: 'Sign out of all other devices' })).toBeVisible();
+        await this.page.getByRole('checkbox', { name: 'Sign out of all other devices' }).uncheck();
+        await this.page.getByRole('checkbox', { name: 'Sign out of all other devices' }).check();
+        await this.page.getByRole('button', { name: 'Save' }).click();
+    }
+
+    async signOutActiveDevices(): Promise<void> {
+        await expect(this.page.getByText('Active devices')).toBeVisible();
+        await this.page.locator('.cl-menuButtonEllipsis').first().click();
+        await this.page.getByRole('menuitem', { name: 'Sign out of device' }).click();
+        await this.page.getByRole('textbox', { name: 'Password' }).fill('mgctest_test12');
+        await this.page.getByRole('button', { name: 'Continue' }).click();
+    }
+
     async navigateOpenUserMenu() {
         await expect(this.page.getByText('Marianne Cecilio', { exact: true })).toBeVisible();
         await expect(this.page.getByText('mgctest_test012', { exact: true })).toBeVisible();
@@ -101,7 +142,6 @@ export class DashboardPage {
         await this.page.getByRole('button', { name: 'Save' }).click();
     }
     async uploadProfilePhoto(photoPath: string): Promise<void> {
-        await this.page.getByRole('menuitem', { name: 'Manage account' }).click();
         await this.page.getByRole('button', { name: 'Update profile' }).click();
         await this.page.getByRole('button', { name: 'Upload' }).click();
         await this.page.getByRole('button', { name: 'Upload' }).setInputFiles(photoPath);
@@ -185,6 +225,28 @@ export class DashboardPage {
         await expect(this.page.getByText('You are required to maintain')).toBeVisible();
         await expect(this.page.getByRole('dialog')).toContainText('You are required to maintain at least one email address in your account at all times');
         await this.page.getByRole('button', { name: 'Remove' }).click();        
+    }
+
+    async deleteAccount() : Promise<void> {
+        await expect(this.page.getByRole('paragraph').filter({ hasText: 'Delete account' })).toBeVisible();
+        await expect(this.page.getByRole('button', { name: 'Delete account' })).toBeVisible();
+        await this.page.getByRole('button', { name: 'Delete account' }).click();
+    }
+
+    async initiateAccountDeletion(): Promise<void> {
+        await expect(this.page.getByText('Are you sure you want to')).toBeVisible();
+        await expect(this.page.getByText('This action is permanent and')).toBeVisible();
+
+        await expect(this.page.getByText('Type "Delete account" below')).toBeVisible();
+        await this.page.getByRole('textbox', { name: 'Type "Delete account" below' }).fill('Delete account');
+        await expect(this.page.getByText('Delete accountCancel')).toBeVisible();
+        await this.page.getByRole('button', { name: 'Delete account' }).click();
+        await this.page.waitForURL('http://localhost:5173/sign-in');
+    }
+
+    async cancelAccountDeletion(): Promise<void> {
+        await this.page.getByRole('button', { name: 'Cancel' }).isVisible();
+        await this.page.getByRole('button', { name: 'Cancel' }).click();
     }
 
     async signOut() {

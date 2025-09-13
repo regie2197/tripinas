@@ -1,7 +1,7 @@
 import { test as base } from '@playwright/test';
-import { LoginPage } from '@pages/LoginPage';
-import { RegistrationPage } from '@pages/RegistrationPage';
-import { DashboardPage } from '@pages/DashboardPage';
+import { LoginPage } from '../pages/LoginPage';
+import { RegistrationPage } from '../pages/RegistrationPage';
+import { DashboardPage } from '../pages/DashboardPage';
 import fs from 'fs';
 import path from 'path';
 

@@ -37,23 +37,3 @@ export async function takeScreenshot(page: Page, testInfo: TestInfo, screenshotD
   });
   return screenshotBuffer;
 }
-
-/**
- * Reads the latest screenshot file into a Buffer.
- * @param screenshotDir - The directory where screenshots are saved.
- * @param testInfo - The Playwright TestInfo object (used to filter relevant screenshots).
- * @returns {Buffer} - The screenshot file as a Buffer.
- */
-export function readLatestScreenshot(screenshotDir: string, testInfo: TestInfo): Buffer {
-  const sanitizedTestCaseName = testInfo.title.replace(/[^a-zA-Z0-9]/g, '_');
-  const screenshotFiles = fs
-    .readdirSync(screenshotDir)
-    .filter((file) => file.startsWith(sanitizedTestCaseName))
-    .sort((a, b) => fs.statSync(path.join(screenshotDir, b)).mtimeMs - fs.statSync(path.join(screenshotDir, a)).mtimeMs);
-  if (screenshotFiles.length === 0) {
-    console.warn(`No screenshots found for test case: ${testInfo.title}`);
-    return Buffer.alloc(0);
-  }
-  const latestScreenshot = screenshotFiles[0];
-  return fs.readFileSync(path.join(screenshotDir, latestScreenshot));
-}
